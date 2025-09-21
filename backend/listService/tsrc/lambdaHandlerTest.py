@@ -3,7 +3,7 @@ import unittest
 import logging
 from lambdaHandler import handler
 
-logging.basicConfig(level=logging.DEBUG) 
+#logging.basicConfig(level=logging.DEBUG) 
 
 def getSimpleTestRequest(operation, empty = False):
 
@@ -28,7 +28,7 @@ def getSimpleTestRequest(operation, empty = False):
 
 class TestLambdaHandler(unittest.TestCase):
 
-    def test_head(self):
+    def testHead(self):
         request = getSimpleTestRequest('head')
         self.assertDictEqual(handler(request, None), 
             {
@@ -37,7 +37,7 @@ class TestLambdaHandler(unittest.TestCase):
                 "body": 'value1'
             })
 
-    def test_head_empty(self):
+    def testHeadEmpty(self):
         request = getSimpleTestRequest('head', True)
         self.assertDictEqual(handler(request, None), 
             {
@@ -47,7 +47,7 @@ class TestLambdaHandler(unittest.TestCase):
             })
 
 
-    def test_tail(self):
+    def testTail(self):
         request = getSimpleTestRequest('tail')
         self.assertDictEqual(handler(request, None),
             {
@@ -56,7 +56,7 @@ class TestLambdaHandler(unittest.TestCase):
                 "body": '["value2", "value3"]'
             })
 
-    def test_tail_empty(self):
+    def testTailEmpty(self):
         request = getSimpleTestRequest('tail', True)
         self.assertDictEqual(handler(request, None),
             {
@@ -65,7 +65,7 @@ class TestLambdaHandler(unittest.TestCase):
                 "body": '[]'
             })
 
-    def test_last(self):
+    def testLast(self):
         request = getSimpleTestRequest('last')
         self.assertDictEqual(handler(request, None), 
             {
@@ -75,7 +75,7 @@ class TestLambdaHandler(unittest.TestCase):
             })
 
 
-    def test_last_empty(self):
+    def testLastEmpty(self):
         request = getSimpleTestRequest('last', True)
         self.assertDictEqual(handler(request, None), 
             {
@@ -84,7 +84,7 @@ class TestLambdaHandler(unittest.TestCase):
                 "body": ''
             })
 
-    def test_head_invalid_input(self):
+    def testHeadInvalidInput(self):
         request = getSimpleTestRequest('head')
         request['multiValueQueryStringParameters']['strings'] = [1,2,3,4]
         self.assertDictEqual(handler(request, None),
@@ -95,17 +95,17 @@ class TestLambdaHandler(unittest.TestCase):
             })
 
 
-    def test_head_invalid_operation(self):
+    def testHeadInvalidOperation(self):
         request = getSimpleTestRequest('foo')
         self.assertDictEqual(handler(request, None),
             {
                 "isBase64Encoded": False,
                 "statusCode": 400,
-                "body": 'Unrecognized operation operation. Available operations are "head", "tail" and "last"'
+                "body": 'Unrecognized operation. Available operations are "head", "tail" and "last"'
             })
 
     
-    def test_no_query_parameters(self):
+    def testNoQueryParameters(self):
         request = getSimpleTestRequest('head')
         request['multiValueQueryStringParameters'] = None
         self.assertDictEqual(handler(request, None),
@@ -115,7 +115,7 @@ class TestLambdaHandler(unittest.TestCase):
                 "body": 'Invalid input arguments. The input has to given in format "<operation>?strings=string0&strings=string1&..."'
             })
     
-    def test_extra_query_parameters(self):
+    def testExtraQueryParameters(self):
         request = getSimpleTestRequest('head')
         request['multiValueQueryStringParameters']['strin'] = "foo"
         self.assertDictEqual(handler(request, None),

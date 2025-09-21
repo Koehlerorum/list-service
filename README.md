@@ -18,9 +18,9 @@ infrastructure directory contains all the required Terraform definitions to depl
 
 # How to run unittest
 
-In directory *backend/listService/* issue command:
+In directory *backend/listService/* issue commands:
 
-``python -m unittest tsrc/lambdaHandlerTest.py``
+``$ PYTHONPATH=src/ python -m unittest tsrc/lambdaHandlerTest.py``
 
 # Deployment
 
@@ -60,4 +60,4 @@ You can test the service using e.g. curl:
 
 ``$ curl "https://<api gateway id>.execute-api.eu-north-1.amazonaws.com/prod/last?strings=foo&strings=bar"``
 
-For full API documentation see file **api_specification.yml**
+For full API documentation see file **apiSpecification.yml**

@@ -5,9 +5,9 @@ import json
 
 # Sets the desired log level
 logger = logging.getLogger()
-log_level = os.environ.get('LOG_LEVEL')
-if log_level:
-    logger.setLevel(log_level)
+logLevel = os.environ.get('LOG_LEVEL')
+if logLevel:
+    logger.setLevel(logLevel)
 
 
 # Implementations of the actual string list operations.
@@ -38,14 +38,14 @@ operations = {
 }
 
 # Transforms to the response to the format API gateway expects.
-def generate_response(status_code, payload):
+def generateResponse(statusCode, payload):
 
     if not type(payload) == str:
         payload = json.dumps(payload)
 
     return {
         "isBase64Encoded": False,
-        "statusCode": status_code,
+        "statusCode": statusCode,
         "body": payload
     }
 
@@ -59,28 +59,28 @@ def handler(event, _context):
     
     ## Retrieves the list of strings passed in by the caller.
     ## Retrieve fails, if there are unknown query parameters.
-    input_strings = None
+    inputStrings = None
     multiValueQueryStringParameters = event.get('multiValueQueryStringParameters')
     if (multiValueQueryStringParameters):
         ## Ensure that there are no unexpected arguments.
         parameterKeys = list(multiValueQueryStringParameters.keys())
         if len(parameterKeys) == 1 and parameterKeys[0] == PARAMETER_KEY:
-            input_strings = multiValueQueryStringParameters.get(PARAMETER_KEY)
+            inputStrings = multiValueQueryStringParameters.get(PARAMETER_KEY)
 
 
     logger.debug("# Input strings")
-    logger.debug(input_strings)
+    logger.debug(inputStrings)
 
     # Validate the inputs:
     pathParameters = event.get('pathParameters', {})
     if not pathParameters or pathParameters.get('proxy') not in operations:
         ## For some reason proxy parameter is missing. (We have been called in some other way than intended.)
-        response = generate_response(400, 'Unrecognized operation. Available operations are "head", "tail" and "last"')
-    elif type(input_strings) != list or not all(isinstance(item, str) for item in input_strings):
+        response = generateResponse(400, 'Unrecognized operation. Available operations are "head", "tail" and "last"')
+    elif type(inputStrings) != list or not all(isinstance(item, str) for item in inputStrings):
         ## Input string array is missing.
-        response = generate_response(400, 'Invalid input arguments. The input has to given in format "<operation>?strings=string0&strings=string1&..."')
+        response = generateResponse(400, 'Invalid input arguments. The input has to given in format "<operation>?strings=string0&strings=string1&..."')
     else:
-        response = generate_response(200, operations[pathParameters.get('proxy')](input_strings))
+        response = generateResponse(200, operations[pathParameters.get('proxy')](inputStrings))
 
     logger.debug("Response:")
     logger.debug(response)
