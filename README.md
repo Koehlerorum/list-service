@@ -24,30 +24,30 @@ In directory *backend/listService/* issue commands:
 
 # Deployment
 
-It is assumed here that you have working *terraform* and *aws* cli installation and that you known how to configure and use your AWS credentials. All of the following commands has to be issues at directory *infrastructure*.
+It is assumed here that you have working *terraform* and *aws* cli installation and that you known how to configure and use your AWS credentials. All of the following commands has to be issues at directory **infrastructure**.
 
 If you are first time deploying the infrastructure, you must start with command:
 
-``infrastructure $ terraform init``
+``$ terraform init``
 
 After the *init* command it is recommended, but not strictly necessary, to run the following commands:
 
-``infrastructure $ terraform validate``
+``$ terraform validate``
 
 and
 
-``infrastructure $ terraform plan``
+``$ terraform plan``
 
 After running all possible errors have been resolved, you can deploy the code to AWS using command:
 
-``infrastructure $ terraform apply``
+``$ terraform apply``
 
 At the end of the apply process Terraform prints out the API gateway URL that can be used in testing.
 
 
 When you are done with the service, it can be removed with command:
 
-``infrastructure $ terraform destroy``
+``$ terraform destroy``
 
 # Usage
 
