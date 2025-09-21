@@ -1,0 +1,62 @@
+openapi: 3.0.4
+info:
+  title: ListService API
+  description: This document defines a REST API for ListService.
+  version: 1.0.0
+
+servers:
+  - url: https://<api_gw_id>.execute-api.eu-north-1.amazonaws.com/prod
+    description: Api gateway address after it has been deployed. Replace <api_gw_id> with the actual id.
+  
+paths:
+  /head:
+    get:
+      summary: Returns the first list element.
+      parameters:
+        - $ref: '#components/string_params'
+      responses:
+        "200": # status code
+          description: the first string argument
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /tail:
+    get:
+      summary: Returns the list of provided strings with first element removed.
+      parameters:
+        - $ref: '#components/string_params'
+      responses:
+        "200": # status code
+          description: A JSON array of strings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /last:
+    get:
+      summary: Returns the last list element.
+      parameters:
+        - $ref: '#components/string_params'
+      responses:
+        "200": # status code
+          description: the first string argument
+          content:
+            application/json:
+              schema:
+                type: string
+
+components:
+  string_params:
+    name: strings[]
+    in: query
+    schema:
+      type: array
+      items:
+        type: string
+    required: true
+    description: Array of strings in format strings=first&strings=second&strings=third.

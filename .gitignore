@@ -1,0 +1,6 @@
+lambdaHandler.zip
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+__pycache__/
