@@ -15,7 +15,9 @@ backend directory contains the backend source code and their associated unit tes
 
 infrastructure directory contains all the required Terraform definitions to deploy the Lambda function and the API Gateway to AWS.
 
-# How to run unittest
+# How to Run The Unit Test
+
+The unit tests have been developed and tested using **Python 3.13**.
 
 In directory **backend/listService/** issue command:
 
